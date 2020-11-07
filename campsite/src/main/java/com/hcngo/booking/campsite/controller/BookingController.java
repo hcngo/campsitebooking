@@ -1,8 +1,10 @@
 package com.hcngo.booking.campsite.controller;
 
 import com.hcngo.booking.campsite.model.Reservation;
+import com.hcngo.booking.campsite.service.DateTimeService;
 import com.hcngo.booking.campsite.service.ReservationService;
 
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -31,14 +33,21 @@ import java.util.Set;
 @RestControllerAdvice
 public class BookingController {
     private ReservationService reservationService;
+    private DateTimeService dateTimeService;
     
     @Autowired
-    public BookingController(ReservationService reservationService) {
+    public BookingController(ReservationService reservationService, DateTimeService dateTimeService) {
         this.reservationService = reservationService;
+        this.dateTimeService = dateTimeService;
     }
 
     @GetMapping(value = "/getAvailableDates")
     public Set<Date> getAvailableDates(@RequestParam String startDate, @RequestParam String endDate) throws ParseException {
+        if (Strings.isBlank(startDate) || Strings.isBlank(endDate)) {
+            Date sDate = dateTimeService.getCurrentDate();
+            Date eDate = dateTimeService.addDays(sDate, 30);
+            return reservationService.getAvailableDates(sDate, eDate);
+        }
         return reservationService.getAvailableDates(startDate, endDate);
     }
 

@@ -37,7 +37,11 @@ public class Reservation {
     public Reservation() {}
 
     public Reservation(String startDate, String endDate, String email, String name) throws ParseException {
-        this.id = UUID.randomUUID().toString();
+        this(UUID.randomUUID().toString(), startDate, endDate, email, name);
+    }
+
+    public Reservation(String id, String startDate, String endDate, String email, String name) throws ParseException {
+        this.id = id;
         this.startDate = Constants.sdformat.parse(startDate);
         this.endDate = Constants.sdformat.parse(endDate);
         this.email = email;

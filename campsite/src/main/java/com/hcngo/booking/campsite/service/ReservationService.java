@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +38,10 @@ public class ReservationService {
 
     public Optional<Reservation> get(String id) {
         return reservationRepository.findById(id);
+    }
+
+    public Set<Date> getAvailableDates(Date startDate, Date endDate) throws ParseException {
+        return getAvailableDates(startDate, endDate, null);
     }
 
     public Set<Date> getAvailableDates(String startDate, String endDate) throws ParseException {
@@ -70,7 +74,7 @@ public class ReservationService {
         Date newStartDate = Constants.sdformat.parse(newDetails.get("startDate"));
         Date newEndDate = Constants.sdformat.parse(newDetails.get("endDate"));
 
-        if (getAvailableDates(newStartDate, newEndDate, r.getId()).size() != dateDiff(newStartDate, newEndDate) + 1) {
+        if (getAvailableDates(newStartDate, newEndDate, r.getId()).size() != dateTimeService.dateDiff(newStartDate, newEndDate) + 1) {
             throw new NotAvailableForBookingException("Cannot book for the duration due to unavailability!");
         }
 
@@ -84,7 +88,7 @@ public class ReservationService {
     }
 
     private Set<Date> getAvailableDates(Date startDate, Date endDate, String ignoreThisReservationId) {
-        Set<Date> availableDates = new HashSet<>();
+        Set<Date> availableDates = new TreeSet<>();
 
         List<Reservation> l1 = reservationRepository.findReservationByStartDateBetween(startDate, endDate);
         List<Reservation> l2 = reservationRepository.findReservationByEndDateBetween(startDate, endDate);
@@ -97,8 +101,8 @@ public class ReservationService {
         if (ignoreThisReservationId != null) {
             s = s.stream().filter(r -> !r.getId().equals(ignoreThisReservationId)).collect(Collectors.toSet());
         }
-        for (int i = 0; i <= dateDiff(startDate, endDate); i++) {
-            Date d = addDays(startDate, i);
+        for (int i = 0; i <= dateTimeService.dateDiff(startDate, endDate); i++) {
+            Date d = dateTimeService.addDays(startDate, i);
             if (!s.stream().anyMatch(r -> d.compareTo(r.getStartDate()) >= 0 && d.compareTo(r.getEndDate()) <= 0)) {
                 availableDates.add(d);
             }
@@ -106,38 +110,20 @@ public class ReservationService {
         return availableDates;
     }
 
-    private void checkCreateReservationBusinessLogic(Date startDate, Date endDate) {
+    private void checkCreateReservationBusinessLogic(Date startDate, Date endDate) throws ParseException {
         // The campsite can be reserved for max 3 days.
         final int maxDays = 3;
-        if (dateDiff(startDate, endDate) > maxDays) {
+        if (dateTimeService.dateDiff(startDate, endDate) > maxDays) {
             throw new ExceedMaximumDurationException("The duration exceeds " + maxDays + " days!");
         }
 
         // The campsite can be reserved minimum 1 day(s) ahead of arrival and up to 1 month in advance.
-        if (dateDiff(dateTimeService.getCurrentDate(), startDate) > 30 || dateDiff(dateTimeService.getCurrentDate(), startDate) < 1) {
+        if (dateTimeService.dateDiff(dateTimeService.getCurrentDate(), startDate) > 30 || dateTimeService.dateDiff(dateTimeService.getCurrentDate(), startDate) < 1) {
             throw new AdvanceBookingException("The campsite must be reserved minimum 1 day(s) ahead of arrival and up to 1 month in advance.");
         }
 
-        if (getAvailableDates(startDate, endDate, null).size() != dateDiff(startDate, endDate) + 1) {
+        if (getAvailableDates(startDate, endDate, null).size() != dateTimeService.dateDiff(startDate, endDate) + 1) {
             throw new NotAvailableForBookingException("Cannot book for the duration due to unavailability!");
         }
-    }
-
-    private long dateDiff(Date start, Date end) {
-        long diffInMillies = end.getTime() - start.getTime();
-        if (diffInMillies < 0) {
-            long diff = TimeUnit.DAYS.convert(Math.abs(diffInMillies), TimeUnit.MILLISECONDS);
-            return -diff;
-        } else {
-            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-            return diff;
-        }
-    }
-
-    private Date addDays(Date date, int days) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, days); //minus number would decrement the days
-        return cal.getTime();
     }
 }
