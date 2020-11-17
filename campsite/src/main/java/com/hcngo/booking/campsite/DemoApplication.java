@@ -2,7 +2,6 @@ package com.hcngo.booking.campsite;
 
 import com.hcngo.booking.campsite.model.Reservation;
 import com.hcngo.booking.campsite.repository.ReservationRepository;
-import com.hcngo.booking.campsite.service.ReservationService;
 import com.hcngo.booking.campsite.util.Constants;
 
 import org.springframework.boot.CommandLineRunner;
@@ -16,10 +15,10 @@ import lombok.extern.java.Log;
 
 @Log
 @SpringBootApplication
-public class CampsiteApplication {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CampsiteApplication.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 	@Bean
