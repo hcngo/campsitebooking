@@ -1,8 +1,8 @@
-package com.hcngo.booking.campsite;
+package com.hcngo.demo;
 
-import com.hcngo.booking.campsite.model.Reservation;
-import com.hcngo.booking.campsite.repository.ReservationRepository;
-import com.hcngo.booking.campsite.util.Constants;
+import com.hcngo.demo.model.Reservation;
+import com.hcngo.demo.repository.ReservationRepository;
+import com.hcngo.demo.util.Constants;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

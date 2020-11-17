@@ -1,4 +1,4 @@
-package com.hcngo.booking.campsite;
+package com.hcngo.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

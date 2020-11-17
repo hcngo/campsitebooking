@@ -1,4 +1,4 @@
-package com.hcngo.booking.campsite.util;
+package com.hcngo.demo.util;
 
 import java.text.SimpleDateFormat;
 

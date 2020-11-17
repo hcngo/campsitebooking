@@ -1,4 +1,4 @@
-package com.hcngo.booking.campsite.util;
+package com.hcngo.demo.util;
 
 public class AdvanceBookingException extends RuntimeException {
     public AdvanceBookingException(String message) {

@@ -1,17 +1,16 @@
-package com.hcngo.booking.campsite.service;
+package com.hcngo.demo.service;
 
-import com.hcngo.booking.campsite.model.Reservation;
-import com.hcngo.booking.campsite.repository.ReservationRepository;
-import com.hcngo.booking.campsite.util.AdvanceBookingException;
-import com.hcngo.booking.campsite.util.Constants;
-import com.hcngo.booking.campsite.util.ExceedMaximumDurationException;
-import com.hcngo.booking.campsite.util.NotAvailableForBookingException;
+import com.hcngo.demo.model.Reservation;
+import com.hcngo.demo.repository.ReservationRepository;
+import com.hcngo.demo.util.AdvanceBookingException;
+import com.hcngo.demo.util.Constants;
+import com.hcngo.demo.util.ExceedMaximumDurationException;
+import com.hcngo.demo.util.NotAvailableForBookingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;

@@ -1,12 +1,11 @@
-package com.hcngo.booking.campsite.controller;
+package com.hcngo.demo.controller;
 
-import com.hcngo.booking.campsite.model.Reservation;
-import com.hcngo.booking.campsite.service.DateTimeService;
-import com.hcngo.booking.campsite.service.ReservationService;
+import com.hcngo.demo.model.Reservation;
+import com.hcngo.demo.service.DateTimeService;
+import com.hcngo.demo.service.ReservationService;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.print.attribute.standard.Media;
 
 import java.text.ParseException;
 import java.util.Date;

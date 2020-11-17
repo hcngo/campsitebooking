@@ -1,6 +1,6 @@
-package com.hcngo.booking.campsite.service;
+package com.hcngo.demo.service;
 
-import com.hcngo.booking.campsite.util.Constants;
+import com.hcngo.demo.util.Constants;
 
 import org.springframework.stereotype.Service;
 

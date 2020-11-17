@@ -1,12 +1,11 @@
-package com.hcngo.booking.campsite.repository;
+package com.hcngo.demo.repository;
 
-import com.hcngo.booking.campsite.model.Reservation;
+import com.hcngo.demo.model.Reservation;
 
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public interface ReservationRepository extends CrudRepository<Reservation, String> {
     Reservation findReservationById(String id);
